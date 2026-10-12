@@ -1,0 +1,4769 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Talk Your Talk</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #fff4f8;
+    color: #444;
+}
+
+button,
+input,
+textarea,
+select {
+    font-family: Arial, sans-serif;
+}
+
+button {
+    border: none;
+    cursor: pointer;
+}
+
+#app {
+    display: none;
+    min-height: 100vh;
+}
+
+/* =========================
+   LOGIN
+========================= */
+
+.login-screen {
+    position: fixed;
+    inset: 0;
+    background: #fff4f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+}
+
+.login-card {
+    width: 90%;
+    max-width: 400px;
+    background: white;
+    padding: 35px 25px;
+    border-radius: 25px;
+    box-shadow: 0 8px 30px rgba(0,0,0,.08);
+    text-align: center;
+}
+
+.login-logo {
+    font-size: 50px;
+}
+
+.login-card h1 {
+    color: #e88aaa;
+}
+
+.login-tagline {
+    color: #777;
+    margin-bottom: 25px;
+}
+
+.login-card input {
+    width: 90%;
+    padding: 13px;
+    margin: 7px 0;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    font-size: 15px;
+    outline: none;
+}
+
+.login-button {
+    width: 97%;
+    padding: 13px;
+    margin-top: 12px;
+    border-radius: 12px;
+    background: #e88aaa;
+    color: white;
+    font-size: 16px;
+}
+
+.signup-link {
+    background: none;
+    color: #e88aaa;
+    font-weight: bold;
+}
+
+/* =========================
+   APP
+========================= */
+
+.app-container {
+    max-width: 1100px;
+    margin: auto;
+    padding-bottom: 90px;
+}
+
+.page {
+    display: none;
+    padding: 25px;
+    max-width: 800px;
+    margin: auto;
+}
+
+.page.active {
+    display: block;
+}
+
+h1,
+h2,
+h3 {
+    color: #e88aaa;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+    margin: 15px 0;
+    box-shadow: 0 5px 20px rgba(0,0,0,.05);
+}
+
+.pink-button {
+    background: #e88aaa;
+    color: white;
+    padding: 11px 17px;
+    border-radius: 12px;
+    margin: 4px;
+}
+
+.gray-button {
+    background: #f2f2f2;
+    color: #777;
+    padding: 10px 15px;
+    border-radius: 10px;
+    margin: 4px;
+}
+
+.green-button {
+    background: #e5f7ed;
+    color: #3c9b67;
+    padding: 10px 15px;
+    border-radius: 10px;
+    margin: 4px;
+}
+
+.red-button {
+    background: #fde8ed;
+    color: #d76f92;
+    padding: 10px 15px;
+    border-radius: 10px;
+    margin: 4px;
+}
+
+.back-button {
+    background: #fce1eb;
+    color: #d76f92;
+    padding: 10px 15px;
+    border-radius: 10px;
+}
+
+/* =========================
+   TOP BAR
+========================= */
+
+.topbar {
+    background: white;
+    padding: 15px 25px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+
+.topbar-inner {
+    max-width: 1100px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    color: #e88aaa;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.topbar-search {
+    width: 250px;
+    padding: 10px 14px;
+    border: 1px solid #eee;
+    border-radius: 20px;
+    outline: none;
+}
+
+.top-profile {
+    background: #fff4f8;
+    color: #d76f92;
+    padding: 9px 14px;
+    border-radius: 15px;
+}
+
+/* =========================
+   BOTTOM NAV
+========================= */
+
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    padding: 10px;
+    box-shadow: 0 -3px 15px rgba(0,0,0,.08);
+    z-index: 500;
+}
+
+.bottom-nav button {
+    background: transparent;
+    color: #888;
+    padding: 8px 14px;
+    border-radius: 12px;
+    position: relative;
+}
+
+.bottom-nav button.active-nav {
+    background: #fff0f5;
+    color: #e88aaa;
+}
+
+.badge {
+    position: absolute;
+    top: 0;
+    right: 2px;
+    background: #e88aaa;
+    color: white;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* =========================
+   HOME
+========================= */
+
+.welcome {
+    text-align: center;
+    padding: 15px;
+}
+
+.home-profile-picture {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    margin: auto;
+    background: #fce1eb;
+}
+
+.home-actions {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 10px;
+}
+
+.home-action {
+    background: white;
+    padding: 20px;
+    border-radius: 18px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,.04);
+}
+
+/* =========================
+   CREATE POST
+========================= */
+
+.create-post textarea {
+    width: 100%;
+    min-height: 100px;
+    border: 1px solid #eee;
+    border-radius: 13px;
+    padding: 13px;
+    resize: vertical;
+    outline: none;
+}
+
+.image-preview {
+    width: 100%;
+    max-height: 350px;
+    object-fit: cover;
+    border-radius: 15px;
+    margin-top: 10px;
+    display: none;
+}
+
+/* =========================
+   POSTS
+========================= */
+
+.post {
+    background: white;
+    padding: 18px;
+    border-radius: 20px;
+    margin: 15px 0;
+    box-shadow: 0 5px 20px rgba(0,0,0,.05);
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.post-avatar {
+    font-size: 35px;
+}
+
+.post-header strong {
+    display: block;
+}
+
+.post-header small {
+    color: #999;
+}
+
+.post-text {
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+.post-image {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+.post-actions {
+    border-top: 1px solid #f2f2f2;
+    padding-top: 10px;
+    margin-top: 15px;
+}
+
+.post-actions button {
+    background: none;
+    color: #777;
+    margin-right: 10px;
+}
+
+.comments {
+    margin-top: 10px;
+}
+
+.comment {
+    background: #fff4f8;
+    padding: 9px 12px;
+    border-radius: 10px;
+    margin: 5px 0;
+}
+
+.comment-row {
+    display: flex;
+    gap: 5px;
+    margin-top: 8px;
+}
+
+.comment-row input {
+    flex: 1;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+/* =========================
+   DISCOVER
+========================= */
+
+.search-box {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    outline: none;
+}
+
+.user-grid {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 12px;
+}
+
+.user-card {
+    background: white;
+    padding: 20px;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,.04);
+}
+
+.user-card .avatar {
+    font-size: 45px;
+}
+
+.user-card p {
+    color: #999;
+}
+
+/* =========================
+   FRIENDS
+========================= */
+
+.friend-item {
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 15px;
+    border-radius: 18px;
+    margin: 10px 0;
+}
+
+.friend-avatar {
+    font-size: 35px;
+    margin-right: 15px;
+}
+
+.friend-info {
+    flex: 1;
+}
+
+.friend-info strong {
+    display: block;
+}
+
+.friend-info small {
+    color: #999;
+}
+
+.request-box {
+    background: #fff0f5;
+    padding: 15px;
+    border-radius: 18px;
+    margin: 10px 0;
+}
+
+/* =========================
+   OTHER PROFILE
+========================= */
+
+.other-profile {
+    text-align: center;
+}
+
+.other-avatar {
+    font-size: 80px;
+}
+
+/* =========================
+   CHAT
+========================= */
+
+.chat-list-item {
+    cursor: pointer;
+}
+
+.online-dot {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    background: #65c98a;
+    border-radius: 50%;
+    margin-left: 5px;
+}
+
+.chat-messages {
+    background: white;
+    padding: 15px;
+    border-radius: 20px;
+    min-height: 350px;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.message {
+    max-width: 75%;
+    padding: 10px 14px;
+    border-radius: 16px;
+    margin: 8px 0;
+}
+
+.message.them {
+    background: #f3f3f3;
+}
+
+.message.me {
+    background: #fce1eb;
+    margin-left: auto;
+}
+
+.message-meta {
+    font-size: 10px;
+    color: #aaa;
+    margin-top: 4px;
+}
+
+.typing {
+    color: #999;
+    font-size: 12px;
+    padding: 5px;
+    display: none;
+}
+
+.chat-input-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.chat-input-row input {
+    flex: 1;
+    padding: 13px;
+    border: 1px solid #eee;
+    border-radius: 12px;
+}
+
+/* =========================
+   NOTIFICATIONS
+========================= */
+
+.notification {
+    background: white;
+    padding: 15px;
+    border-radius: 15px;
+    margin: 10px 0;
+    cursor: pointer;
+}
+
+.notification.unread {
+    background: #fff0f5;
+}
+
+.notification-time {
+    display: block;
+    color: #aaa;
+    font-size: 11px;
+    margin-top: 5px;
+}
+
+/* =========================
+   LIVE ROOMS
+========================= */
+
+.room-button {
+    width: 100%;
+    text-align: left;
+    padding: 16px;
+    background: #fff4f8;
+    border-radius: 15px;
+    margin: 7px 0;
+}
+
+.room-button:hover {
+    background: #fce1eb;
+}
+
+.room-card {
+    background: white;
+    padding: 18px;
+    border-radius: 20px;
+    margin: 12px 0;
+    box-shadow: 0 5px 20px rgba(0,0,0,.05);
+}
+
+.room-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.room-icon {
+    font-size: 42px;
+}
+
+.room-info {
+    flex: 1;
+}
+
+.room-info h3 {
+    margin: 0 0 5px 0;
+}
+
+.room-info p {
+    margin: 0;
+    color: #999;
+    font-size: 13px;
+}
+
+.room-meta {
+    margin-top: 12px;
+    color: #999;
+    font-size: 13px;
+}
+
+.room-host {
+    display: inline-block;
+    background: #fff0f5;
+    color: #d76f92;
+    padding: 5px 9px;
+    border-radius: 8px;
+    font-size: 11px;
+}
+
+.room-people {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 10px;
+}
+
+.person-card {
+    background: white;
+    padding: 20px;
+    border-radius: 18px;
+    text-align: center;
+}
+
+.hand-up {
+    border: 2px solid #e88aaa;
+}
+
+.host-controls {
+    background: #fff0f5;
+    padding: 15px;
+    border-radius: 15px;
+    margin: 15px 0;
+}
+
+/* =========================
+   CREATE ROOM
+========================= */
+
+.create-room-card input,
+.create-room-card textarea,
+.create-room-card select {
+    width: 100%;
+    padding: 13px;
+    margin: 7px 0;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    outline: none;
+    background: white;
+}
+
+.create-room-card textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+.room-visibility {
+    display: flex;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.visibility-option {
+    flex: 1;
+    padding: 13px;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.visibility-option.selected {
+    background: #fff0f5;
+    border-color: #e88aaa;
+    color: #d76f92;
+}
+
+/* =========================
+   PROFILE
+========================= */
+
+.profile-header {
+    text-align: center;
+}
+
+.profile-picture {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    margin: 10px auto;
+    background: #fce1eb;
+}
+
+.profile-stats {
+    display: flex;
+    justify-content: center;
+    gap: 35px;
+    margin: 20px 0;
+}
+
+.stat {
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 22px;
+    font-weight: bold;
+    color: #e88aaa;
+}
+
+/* =========================
+   SETTINGS
+========================= */
+
+.setting-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 0;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.setting-row:last-child {
+    border-bottom: none;
+}
+
+.toggle {
+    width: 45px;
+    height: 25px;
+    border-radius: 20px;
+    background: #ddd;
+    position: relative;
+}
+
+.toggle.on {
+    background: #e88aaa;
+}
+
+.toggle::after {
+    content: "";
+    width: 19px;
+    height: 19px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+}
+
+.toggle.on::after {
+    left: 23px;
+}
+
+.empty {
+    text-align: center;
+    color: #999;
+    padding: 30px;
+}
+
+.logout-button {
+    width: 90%;
+    max-width: 300px;
+    padding: 12px;
+    border-radius: 12px;
+    background: #fce1eb;
+    color: #d76f92;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 650px) {
+
+    .topbar-search {
+        display: none;
+    }
+
+    .topbar {
+        padding: 12px;
+    }
+
+    .page {
+        padding: 18px 14px;
+    }
+
+    .bottom-nav {
+        justify-content: space-around;
+        padding: 7px 2px;
+    }
+
+    .bottom-nav button {
+        font-size: 11px;
+        padding: 8px 7px;
+    }
+
+    .user-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .home-actions {
+        grid-template-columns: 1fr 1fr;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     LOGIN
+========================= -->
+
+<div id="loginScreen" class="login-screen">
+
+    <div class="login-card">
+
+        <div class="login-logo">💗</div>
+
+        <h1>Talk Your Talk</h1>
+
+        <p class="login-tagline">
+            A place to talk, connect, and be yourself.
+        </p>
+
+        <input
+            id="loginUsername"
+            type="text"
+            placeholder="Username"
+        >
+
+        <input
+            id="loginPassword"
+            type="password"
+            placeholder="Password"
+        >
+
+        <button
+            class="login-button"
+            onclick="loginUser()"
+        >
+            Log In
+        </button>
+
+        <p class="login-tagline">
+            Don't have an account?
+        </p>
+
+        <button
+            class="signup-link"
+            onclick="showSignup()"
+        >
+            Create Account
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     SIGN UP
+========================= -->
+
+<div
+    id="signupScreen"
+    class="login-screen"
+    style="display:none;"
+>
+
+    <div class="login-card">
+
+        <div class="login-logo">💗</div>
+
+        <h1>Create Account</h1>
+
+        <p class="login-tagline">
+            Welcome to your new second home.
+        </p>
+
+        <input
+            id="signupName"
+            placeholder="Your name"
+        >
+
+        <input
+            id="signupUsername"
+            placeholder="Username"
+        >
+
+        <input
+            id="signupPassword"
+            type="password"
+            placeholder="Password"
+        >
+
+        <button
+            class="login-button"
+            onclick="createAccount()"
+        >
+            Create Account
+        </button>
+
+        <p class="login-tagline">
+            Already have an account?
+        </p>
+
+        <button
+            class="signup-link"
+            onclick="showLogin()"
+        >
+            Log In
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     APP
+========================= -->
+
+<div id="app">
+
+    <div class="topbar">
+
+        <div class="topbar-inner">
+
+            <div class="logo">
+                💗 Talk Your Talk
+            </div>
+
+            <input
+                class="topbar-search"
+                placeholder="Search people..."
+                onkeydown="globalSearch(event)"
+            >
+
+            <button
+                class="top-profile"
+                onclick="showPage('profile')"
+            >
+                👤
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="app-container">
+
+
+        <!-- =========================
+             HOME
+        ========================= -->
+
+        <div
+            id="home"
+            class="page active"
+        >
+
+            <div class="welcome">
+
+                <img
+                    id="homeProfileImage"
+                    class="home-profile-picture"
+                    src=""
+                >
+
+                <h1 id="homeWelcomeName">
+                    Welcome back!
+                </h1>
+
+                <p
+                    id="homeWelcomeUsername"
+                    style="color:#999;"
+                >
+                    @naina
+                </p>
+
+                <p>
+                    Your little corner of the internet 💗
+                </p>
+
+            </div>
+
+
+            <div class="home-actions">
+
+                <div
+                    class="home-action"
+                    onclick="showPage('discover')"
+                >
+                    🔎
+                    <br>
+                    <strong>Discover</strong>
+                </div>
+
+                <div
+                    class="home-action"
+                    onclick="showPage('friends')"
+                >
+                    👥
+                    <br>
+                    <strong>Friends</strong>
+                </div>
+
+                <div
+                    class="home-action"
+                    onclick="showPage('create')"
+                >
+                    ✨
+                    <br>
+                    <strong>Create</strong>
+                </div>
+
+                <div
+                    class="home-action"
+                    onclick="showPage('rooms')"
+                >
+                    🎙️
+                    <br>
+                    <strong>Live Rooms</strong>
+                </div>
+
+            </div>
+
+
+            <h2>
+                Your Feed
+            </h2>
+
+            <div id="feed"></div>
+
+        </div>
+
+
+        <!-- =========================
+             DISCOVER
+        ========================= -->
+
+        <div
+            id="discover"
+            class="page"
+        >
+
+            <h1>🔎 Discover</h1>
+
+            <p>
+                Find people you might vibe with.
+            </p>
+
+            <input
+                id="discoverSearch"
+                class="search-box"
+                placeholder="Search people..."
+                oninput="displayDiscover()"
+            >
+
+            <h2>
+                People You May Like
+            </h2>
+
+            <div
+                id="discoverUsers"
+                class="user-grid"
+            ></div>
+
+        </div>
+
+
+        <!-- =========================
+             CREATE POST
+        ========================= -->
+
+        <div
+            id="create"
+            class="page"
+        >
+
+            <h1>✨ Create</h1>
+
+            <div class="card">
+
+                <h2>
+                    Share something
+                </h2>
+
+                <textarea
+                    id="postText"
+                    placeholder="What's on your mind?"
+                    style="width:100%;min-height:100px;border:1px solid #eee;border-radius:13px;padding:13px;resize:vertical;outline:none;"
+                ></textarea>
+
+                <input
+                    type="file"
+                    id="postImageInput"
+                    accept="image/*"
+                    style="display:none;"
+                    onchange="previewPostImage(event)"
+                >
+
+                <img
+                    id="postImagePreview"
+                    class="image-preview"
+                >
+
+                <br>
+
+                <button
+                    class="gray-button"
+                    onclick="document.getElementById('postImageInput').click()"
+                >
+                    📷 Add Photo
+                </button>
+
+                <button
+                    class="pink-button"
+                    onclick="createPost()"
+                >
+                    ✨ Post
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             FRIENDS
+        ========================= -->
+
+        <div
+            id="friends"
+            class="page"
+        >
+
+            <h1>👥 Friends</h1>
+
+            <input
+                id="friendSearch"
+                class="search-box"
+                placeholder="Search people..."
+                oninput="displayFriends()"
+            >
+
+            <div id="friendRequests"></div>
+
+            <h2>
+                Your People
+            </h2>
+
+            <div id="friendsList"></div>
+
+        </div>
+
+
+        <!-- =========================
+             OTHER PROFILE
+        ========================= -->
+
+        <div
+            id="otherProfile"
+            class="page"
+        >
+
+            <button
+                class="back-button"
+                onclick="showPage('friends')"
+            >
+                ← Back
+            </button>
+
+            <div class="card other-profile">
+
+                <div
+                    id="otherAvatar"
+                    class="other-avatar"
+                >
+                    👤
+                </div>
+
+                <h1 id="otherName">
+                    Name
+                </h1>
+
+                <p id="otherUsername">
+                    @username
+                </p>
+
+                <p id="otherBio">
+                    Bio
+                </p>
+
+                <div class="profile-stats">
+
+                    <div class="stat">
+
+                        <div
+                            id="otherFriendsCount"
+                            class="stat-number"
+                        >
+                            0
+                        </div>
+
+                        <div>
+                            Friends
+                        </div>
+
+                    </div>
+
+                    <div class="stat">
+
+                        <div
+                            id="otherMomentsCount"
+                            class="stat-number"
+                        >
+                            0
+                        </div>
+
+                        <div>
+                            Moments
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div id="otherProfileActions"></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             CHATS
+        ========================= -->
+
+        <div
+            id="chats"
+            class="page"
+        >
+
+            <h1>💬 Chats</h1>
+
+            <div id="chatList"></div>
+
+        </div>
+
+
+        <!-- =========================
+             PRIVATE CHAT
+        ========================= -->
+
+        <div
+            id="privateChat"
+            class="page"
+        >
+
+            <button
+                class="back-button"
+                onclick="showPage('chats')"
+            >
+                ← Chats
+            </button>
+
+            <h1 id="privateChatTitle">
+                Chat
+            </h1>
+
+            <p
+                id="privateChatUsername"
+                style="color:#999;"
+            ></p>
+
+            <div
+                id="typingIndicator"
+                class="typing"
+            >
+                typing...
+            </div>
+
+            <div
+                id="privateChatMessages"
+                class="chat-messages"
+            ></div>
+
+            <div class="chat-input-row">
+
+                <input
+                    id="privateChatInput"
+                    placeholder="Type a message..."
+                    onkeydown="handleChatKey(event)"
+                    oninput="showTyping()"
+                >
+
+                <button
+                    class="pink-button"
+                    onclick="sendPrivateMessage()"
+                >
+                    Send
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             NOTIFICATIONS
+        ========================= -->
+
+        <div
+            id="notifications"
+            class="page"
+        >
+
+            <h1>🔔 Notifications</h1>
+
+            <button
+                class="pink-button"
+                onclick="markAllRead()"
+            >
+                Mark all as read
+            </button>
+
+            <div id="notificationList"></div>
+
+        </div>
+
+
+        <!-- =========================
+             LIVE ROOMS
+        ========================= -->
+
+        <div
+            id="rooms"
+            class="page"
+        >
+
+            <h1>🎙️ Live Rooms</h1>
+
+            <p>
+                Drop in. Listen. Talk. Meet people.
+            </p>
+
+
+            <div class="card">
+
+                <button
+                    class="pink-button"
+                    style="width:100%;padding:15px;font-size:16px;"
+                    onclick="showPage('createRoom')"
+                >
+                    ➕ Create Your Own Room
+                </button>
+
+            </div>
+
+
+            <h2>
+                🔴 Live Now
+            </h2>
+
+            <div id="roomList"></div>
+
+        </div>
+
+
+        <!-- =========================
+             CREATE ROOM
+        ========================= -->
+
+        <div
+            id="createRoom"
+            class="page"
+        >
+
+            <button
+                class="back-button"
+                onclick="showPage('rooms')"
+            >
+                ← Back to Rooms
+            </button>
+
+            <h1>
+                🎙️ Create a Room
+            </h1>
+
+            <p>
+                Start a conversation and let people join you.
+            </p>
+
+
+            <div class="card create-room-card">
+
+                <h2>
+                    Room Details
+                </h2>
+
+                <label>
+                    <strong>Room name</strong>
+                </label>
+
+                <input
+                    id="roomNameInput"
+                    placeholder="Example: Let's talk about life"
+                >
+
+
+                <label>
+                    <strong>Description</strong>
+                </label>
+
+                <textarea
+                    id="roomDescriptionInput"
+                    placeholder="What's this room about?"
+                ></textarea>
+
+
+                <label>
+                    <strong>Topic</strong>
+                </label>
+
+                <select id="roomTopicInput">
+
+                    <option value="Just Chatting">
+                        💬 Just Chatting
+                    </option>
+
+                    <option value="Music">
+                        🎵 Music
+                    </option>
+
+                    <option value="Gaming">
+                        🎮 Gaming
+                    </option>
+
+                    <option value="Advice">
+                        💗 Advice
+                    </option>
+
+                    <option value="Relationships">
+                        💕 Relationships
+                    </option>
+
+                    <option value="Movies & TV">
+                        🎬 Movies & TV
+                    </option>
+
+                    <option value="Random">
+                        💭 Random
+                    </option>
+
+                </select>
+
+
+                <h3>
+                    Who can join?
+                </h3>
+
+                <div class="room-visibility">
+
+                    <div
+                        id="publicOption"
+                        class="visibility-option selected"
+                        onclick="selectRoomVisibility('public')"
+                    >
+                        🌍
+                        <br>
+                        <strong>Public</strong>
+                        <br>
+                        <small>Anyone can join</small>
+                    </div>
+
+                    <div
+                        id="privateOption"
+                        class="visibility-option"
+                        onclick="selectRoomVisibility('private')"
+                    >
+                        🔒
+                        <br>
+                        <strong>Private</strong>
+                        <br>
+                        <small>Invite only</small>
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="pink-button"
+                    style="width:100%;padding:14px;font-size:16px;"
+                    onclick="createRoom()"
+                >
+                    🎙️ Start Room
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             ROOM
+        ========================= -->
+
+        <div
+            id="room"
+            class="page"
+        >
+
+            <button
+                class="back-button"
+                onclick="leaveCurrentRoom()"
+            >
+                ← Leave Room
+            </button>
+
+
+            <div
+                class="card"
+                style="text-align:center;"
+            >
+
+                <div
+                    id="activeRoomIcon"
+                    style="font-size:55px;"
+                >
+                    🎙️
+                </div>
+
+                <h1 id="roomTitle">
+                    Room
+                </h1>
+
+                <p
+                    id="activeRoomTopic"
+                    style="color:#e88aaa;font-weight:bold;"
+                ></p>
+
+                <p id="activeRoomDescription">
+                </p>
+
+                <p
+                    id="activeRoomHost"
+                    style="color:#999;"
+                ></p>
+
+                <button
+                    id="micButton"
+                    class="pink-button"
+                    onclick="toggleMic()"
+                >
+                    🎤 Mic On
+                </button>
+
+                <button
+                    id="handButton"
+                    class="gray-button"
+                    onclick="raiseHand()"
+                >
+                    ✋ Raise Hand
+                </button>
+
+            </div>
+
+
+            <div
+                id="hostControls"
+                class="host-controls"
+                style="display:none;"
+            >
+
+                <strong>
+                    👑 Host Controls
+                </strong>
+
+                <br>
+
+                <button
+                    class="red-button"
+                    onclick="endCurrentRoom()"
+                >
+                    🛑 End Room
+                </button>
+
+            </div>
+
+
+            <h2>
+                👥 People in the room
+            </h2>
+
+            <div
+                id="roomPeople"
+                class="room-people"
+            ></div>
+
+        </div>
+
+
+        <!-- =========================
+             PROFILE
+        ========================= -->
+
+        <div
+            id="profile"
+            class="page"
+        >
+
+            <div class="profile-header">
+
+                <img
+                    id="profileImage"
+                    class="profile-picture"
+                >
+
+                <button
+                    class="pink-button"
+                    onclick="document.getElementById('profilePhotoInput').click()"
+                >
+                    📷 Change Picture
+                </button>
+
+                <input
+                    type="file"
+                    id="profilePhotoInput"
+                    accept="image/*"
+                    style="display:none;"
+                    onchange="changeProfilePicture(event)"
+                >
+
+                <h1 id="profileName">
+                    Naina
+                </h1>
+
+                <p id="profileUsername">
+                    @naina
+                </p>
+
+                <p id="profileBio">
+                    Welcome to my profile 💗
+                </p>
+
+            </div>
+
+
+            <div class="profile-stats">
+
+                <div class="stat">
+
+                    <div
+                        id="friendsCount"
+                        class="stat-number"
+                    >
+                        0
+                    </div>
+
+                    <div>
+                        Friends
+                    </div>
+
+                </div>
+
+                <div class="stat">
+
+                    <div
+                        id="momentsCount"
+                        class="stat-number"
+                    >
+                        0
+                    </div>
+
+                    <div>
+                        Moments
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <h2>
+                    Edit Profile
+                </h2>
+
+                <input
+                    id="editName"
+                    placeholder="Name"
+                    style="width:100%;padding:12px;margin:5px 0;border:1px solid #eee;border-radius:10px;"
+                >
+
+                <input
+                    id="editUsername"
+                    placeholder="Username"
+                    style="width:100%;padding:12px;margin:5px 0;border:1px solid #eee;border-radius:10px;"
+                >
+
+                <textarea
+                    id="editBio"
+                    placeholder="Bio"
+                    style="width:100%;padding:12px;margin:5px 0;border:1px solid #eee;border-radius:10px;"
+                ></textarea>
+
+                <button
+                    class="pink-button"
+                    onclick="saveProfile()"
+                >
+                    Save Profile
+                </button>
+
+            </div>
+
+
+            <button
+                class="pink-button"
+                onclick="showPage('settings')"
+            >
+                ⚙️ Settings
+            </button>
+
+
+            <div style="text-align:center;">
+
+                <button
+                    class="logout-button"
+                    onclick="logoutUser()"
+                >
+                    🚪 Log Out
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             SETTINGS
+        ========================= -->
+
+        <div
+            id="settings"
+            class="page"
+        >
+
+            <button
+                class="back-button"
+                onclick="showPage('profile')"
+            >
+                ← Profile
+            </button>
+
+            <h1>
+                ⚙️ Settings
+            </h1>
+
+
+            <div class="card">
+
+                <h2>
+                    Notifications
+                </h2>
+
+                <div class="setting-row">
+
+                    <span>
+                        Friend requests
+                    </span>
+
+                    <div
+                        id="toggleRequests"
+                        class="toggle on"
+                        onclick="toggleSetting('requests')"
+                    ></div>
+
+                </div>
+
+                <div class="setting-row">
+
+                    <span>
+                        Messages
+                    </span>
+
+                    <div
+                        id="toggleMessages"
+                        class="toggle on"
+                        onclick="toggleSetting('messages')"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <h2>
+                    Privacy
+                </h2>
+
+                <div class="setting-row">
+
+                    <span>
+                        Allow friend requests
+                    </span>
+
+                    <div
+                        id="toggleFriendRequests"
+                        class="toggle on"
+                        onclick="toggleSetting('friendRequests')"
+                    ></div>
+
+                </div>
+
+                <div class="setting-row">
+
+                    <span>
+                        Allow private messages
+                    </span>
+
+                    <div
+                        id="togglePrivateMessages"
+                        class="toggle on"
+                        onclick="toggleSetting('privateMessages')"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <h2>
+                    🛡️ Safety
+                </h2>
+
+                <p style="color:#888;">
+                    You control who you interact with.
+                </p>
+
+                <button
+                    class="gray-button"
+                    onclick="alert('Blocked users will appear here in the next version.')"
+                >
+                    🚫 Blocked Users
+                </button>
+
+                <button
+                    class="gray-button"
+                    onclick="alert('Reports will be handled here in the real online version.')"
+                >
+                    ⚠️ Reports
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         BOTTOM NAV
+    ========================= -->
+
+    <div class="bottom-nav">
+
+        <button
+            id="navHome"
+            onclick="showPage('home')"
+        >
+            🏠
+            <br>
+            Home
+        </button>
+
+        <button
+            id="navDiscover"
+            onclick="showPage('discover')"
+        >
+            🔎
+            <br>
+            Discover
+        </button>
+
+        <button
+            id="navCreate"
+            onclick="showPage('create')"
+        >
+            ✨
+            <br>
+            Create
+        </button>
+
+        <button
+            id="navChats"
+            onclick="showPage('chats')"
+        >
+            💬
+            <br>
+            Chats
+        </button>
+
+        <button
+            id="navProfile"
+            onclick="showPage('profile')"
+        >
+            👤
+            <br>
+            Profile
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   ACCOUNT
+========================= */
+
+function showSignup() {
+
+    document.getElementById("loginScreen").style.display =
+        "none";
+
+    document.getElementById("signupScreen").style.display =
+        "flex";
+
+}
+
+function showLogin() {
+
+    document.getElementById("signupScreen").style.display =
+        "none";
+
+    document.getElementById("loginScreen").style.display =
+        "flex";
+
+}
+
+function createAccount() {
+
+    const name =
+        document.getElementById("signupName").value.trim();
+
+    const username =
+        document.getElementById("signupUsername").value.trim();
+
+    const password =
+        document.getElementById("signupPassword").value.trim();
+
+    if (!name || !username || !password) {
+
+        alert("Please fill in all the fields.");
+
+        return;
+
+    }
+
+    localStorage.setItem("profileName", name);
+    localStorage.setItem("profileUsername", username);
+    localStorage.setItem("accountPassword", password);
+    localStorage.setItem(
+        "profileBio",
+        "Welcome to my profile 💗"
+    );
+
+    alert(
+        "Account created! Welcome to Talk Your Talk 💗"
+    );
+
+    showLogin();
+
+}
+
+function loginUser() {
+
+    const username =
+        document.getElementById("loginUsername").value.trim();
+
+    const password =
+        document.getElementById("loginPassword").value.trim();
+
+    const savedUsername =
+        localStorage.getItem("profileUsername");
+
+    const savedPassword =
+        localStorage.getItem("accountPassword");
+
+    if (!savedUsername) {
+
+        alert(
+            "You don't have an account yet. Click Create Account."
+        );
+
+        return;
+
+    }
+
+    if (
+        username === savedUsername &&
+        password === savedPassword
+    ) {
+
+        localStorage.setItem(
+            "isLoggedIn",
+            "true"
+        );
+
+        document.getElementById("loginScreen").style.display =
+            "none";
+
+        document.getElementById("signupScreen").style.display =
+            "none";
+
+        document.getElementById("app").style.display =
+            "block";
+
+        loadProfile();
+        displayFeed();
+        displayDiscover();
+        displayRooms();
+        updateNavigation("home");
+
+    } else {
+
+        alert("Incorrect username or password.");
+
+    }
+
+}
+
+function logoutUser() {
+
+    localStorage.setItem(
+        "isLoggedIn",
+        "false"
+    );
+
+    document.getElementById("app").style.display =
+        "none";
+
+    document.getElementById("loginScreen").style.display =
+        "flex";
+
+    document.getElementById("loginUsername").value =
+        "";
+
+    document.getElementById("loginPassword").value =
+        "";
+
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+function showPage(pageId) {
+
+    document.querySelectorAll(".page").forEach(
+        function(page) {
+
+            page.classList.remove("active");
+
+        }
+    );
+
+    const page =
+        document.getElementById(pageId);
+
+    if (page) {
+
+        page.classList.add("active");
+
+    }
+
+    updateNavigation(pageId);
+
+    if (pageId === "home") {
+        displayFeed();
+    }
+
+    if (pageId === "discover") {
+        displayDiscover();
+    }
+
+    if (pageId === "friends") {
+        displayFriends();
+    }
+
+    if (pageId === "chats") {
+        displayChatList();
+    }
+
+    if (pageId === "notifications") {
+        displayNotifications();
+    }
+
+    if (pageId === "rooms") {
+        displayRooms();
+    }
+
+    if (pageId === "profile") {
+        loadProfile();
+    }
+
+}
+
+function updateNavigation(pageId) {
+
+    document.querySelectorAll(".bottom-nav button").forEach(
+        function(button) {
+
+            button.classList.remove("active-nav");
+
+        }
+    );
+
+    const map = {
+
+        home: "navHome",
+        discover: "navDiscover",
+        create: "navCreate",
+        chats: "navChats",
+        profile: "navProfile"
+
+    };
+
+    if (map[pageId]) {
+
+        document
+            .getElementById(map[pageId])
+            .classList.add("active-nav");
+
+    }
+
+}
+
+
+/* =========================
+   PROFILE
+========================= */
+
+function loadProfile() {
+
+    const name =
+        localStorage.getItem("profileName") || "Naina";
+
+    const username =
+        localStorage.getItem("profileUsername") || "naina";
+
+    const bio =
+        localStorage.getItem("profileBio") ||
+        "Welcome to my profile 💗";
+
+    document.getElementById("profileName").textContent =
+        name;
+
+    document.getElementById("profileUsername").textContent =
+        "@" + username;
+
+    document.getElementById("profileBio").textContent =
+        bio;
+
+    document.getElementById("editName").value =
+        name;
+
+    document.getElementById("editUsername").value =
+        username;
+
+    document.getElementById("editBio").value =
+        bio;
+
+    document.getElementById("homeWelcomeName").textContent =
+        "Welcome back, " + name + "!";
+
+    document.getElementById("homeWelcomeUsername").textContent =
+        "@" + username;
+
+    const picture =
+        localStorage.getItem("profilePicture");
+
+    const defaultPicture =
+        "https://via.placeholder.com/110/fce1eb/e88aaa?text=%E2%9D%A4";
+
+    document.getElementById("profileImage").src =
+        picture || defaultPicture;
+
+    document.getElementById("homeProfileImage").src =
+        picture || defaultPicture;
+
+    document.getElementById("friendsCount").textContent =
+        getAddedFriends().length;
+
+    const posts =
+        getPosts();
+
+    document.getElementById("momentsCount").textContent =
+        posts.filter(
+            function(post) {
+
+                return post.mine === true;
+
+            }
+        ).length;
+
+}
+
+function saveProfile() {
+
+    const name =
+        document.getElementById("editName").value.trim();
+
+    const username =
+        document.getElementById("editUsername").value.trim();
+
+    const bio =
+        document.getElementById("editBio").value.trim();
+
+    if (!name || !username) {
+
+        alert(
+            "Please enter your name and username."
+        );
+
+        return;
+
+    }
+
+    localStorage.setItem("profileName", name);
+    localStorage.setItem("profileUsername", username);
+    localStorage.setItem("profileBio", bio);
+
+    loadProfile();
+
+    alert("Profile updated 💗");
+
+}
+
+function changeProfilePicture(event) {
+
+    const file =
+        event.target.files[0];
+
+    if (!file) return;
+
+    const reader =
+        new FileReader();
+
+    reader.onload =
+        function(e) {
+
+            localStorage.setItem(
+                "profilePicture",
+                e.target.result
+            );
+
+            loadProfile();
+
+        };
+
+    reader.readAsDataURL(file);
+
+}
+
+
+/* =========================
+   USERS
+========================= */
+
+const friendsData = [
+
+    {
+        name: "Alex",
+        username: "alex",
+        avatar: "👨🏻",
+        bio: "Coffee, conversations and random thoughts ☕️"
+    },
+
+    {
+        name: "Maya",
+        username: "maya",
+        avatar: "👩🏻",
+        bio: "Music, late nights and good energy 🎧💗"
+    },
+
+    {
+        name: "Chris",
+        username: "chris",
+        avatar: "👨🏽",
+        bio: "Always down for a good conversation."
+    },
+
+    {
+        name: "Sophia",
+        username: "sophia",
+        avatar: "👩🏼",
+        bio: "Just here to meet interesting people ✨"
+    },
+
+    {
+        name: "Jordan",
+        username: "jordan",
+        avatar: "🧑🏽",
+        bio: "Trying to make the internet feel a little less lonely."
+    },
+
+    {
+        name: "Lena",
+        username: "lena",
+        avatar: "👩🏽",
+        bio: "Books, sunsets and deep conversations 🌅"
+    },
+
+    {
+        name: "Noah",
+        username: "noah",
+        avatar: "👨🏼",
+        bio: "Gaming, music and random conversations."
+    },
+
+    {
+        name: "Emma",
+        username: "emma",
+        avatar: "👩🏼‍🦱",
+        bio: "Here for good people and good vibes ✨"
+    }
+
+];
+
+
+/* =========================
+   FRIEND STORAGE
+========================= */
+
+function getAddedFriends() {
+
+    return JSON.parse(
+        localStorage.getItem("addedFriends") || "[]"
+    );
+
+}
+
+function saveAddedFriends(data) {
+
+    localStorage.setItem(
+        "addedFriends",
+        JSON.stringify(data)
+    );
+
+}
+
+function getPendingRequests() {
+
+    return JSON.parse(
+        localStorage.getItem("pendingRequests") || "[]"
+    );
+
+}
+
+function savePendingRequests(data) {
+
+    localStorage.setItem(
+        "pendingRequests",
+        JSON.stringify(data)
+    );
+
+}
+
+function getIncomingRequests() {
+
+    let data =
+        JSON.parse(
+            localStorage.getItem("incomingRequests") || "null"
+        );
+
+    if (data === null) {
+
+        data = [{index: 3}];
+
+        saveIncomingRequests(data);
+
+    }
+
+    return data;
+
+}
+
+function saveIncomingRequests(data) {
+
+    localStorage.setItem(
+        "incomingRequests",
+        JSON.stringify(data)
+    );
+
+}
+
+function isFriend(index) {
+
+    return getAddedFriends().includes(index);
+
+}
+
+function isPending(index) {
+
+    return getPendingRequests().includes(index);
+
+}
+
+
+/* =========================
+   FRIEND REQUESTS
+========================= */
+
+function sendFriendRequest(index) {
+
+    if (
+        isFriend(index) ||
+        isPending(index)
+    ) {
+        return;
+    }
+
+    const requests =
+        getPendingRequests();
+
+    requests.push(index);
+
+    savePendingRequests(requests);
+
+    addNotification(
+        "You sent a friend request to " +
+        friendsData[index].name +
+        " 💗"
+    );
+
+    displayFriends();
+
+}
+
+function cancelFriendRequest(index) {
+
+    const requests =
+        getPendingRequests().filter(
+            function(item) {
+
+                return item !== index;
+
+            }
+        );
+
+    savePendingRequests(requests);
+
+    displayFriends();
+
+}
+
+function acceptFriendRequest(index) {
+
+    const incoming =
+        getIncomingRequests().filter(
+            function(request) {
+
+                return request.index !== index;
+
+            }
+        );
+
+    saveIncomingRequests(incoming);
+
+    const friends =
+        getAddedFriends();
+
+    if (!friends.includes(index)) {
+
+        friends.push(index);
+
+    }
+
+    saveAddedFriends(friends);
+
+    addNotification(
+        "You and " +
+        friendsData[index].name +
+        " are now friends 💗"
+    );
+
+    loadProfile();
+    displayFriends();
+
+}
+
+function declineFriendRequest(index) {
+
+    const incoming =
+        getIncomingRequests().filter(
+            function(request) {
+
+                return request.index !== index;
+
+            }
+        );
+
+    saveIncomingRequests(incoming);
+
+    displayFriends();
+
+}
+
+
+/* =========================
+   FRIEND PAGE
+========================= */
+
+function displayFriends() {
+
+    const list =
+        document.getElementById("friendsList");
+
+    const search =
+        document.getElementById("friendSearch")
+        .value
+        .toLowerCase();
+
+    list.innerHTML = "";
+
+    displayFriendRequests();
+
+    const friends =
+        getAddedFriends();
+
+    const pending =
+        getPendingRequests();
+
+    let found = false;
+
+    friendsData.forEach(
+        function(friend,index) {
+
+            if (
+                !friend.name.toLowerCase().includes(search) &&
+                !friend.username.toLowerCase().includes(search)
+            ) {
+                return;
+            }
+
+            found = true;
+
+            const item =
+                document.createElement("div");
+
+            item.className =
+                "friend-item";
+
+            let button = "";
+
+            if (friends.includes(index)) {
+
+                button =
+                    "<button class='pink-button' onclick='openPrivateChat(" +
+                    index +
+                    ")'>💬 Chat</button>";
+
+            } else if (pending.includes(index)) {
+
+                button =
+                    "<button class='gray-button' onclick='cancelFriendRequest(" +
+                    index +
+                    ")'>⏳ Sent</button>";
+
+            } else {
+
+                button =
+                    "<button class='pink-button' onclick='sendFriendRequest(" +
+                    index +
+                    ")'>➕ Add</button>";
+
+            }
+
+            item.innerHTML =
+
+                "<div class='friend-avatar'>" +
+                friend.avatar +
+                "</div>" +
+
+                "<div class='friend-info' style='cursor:pointer' onclick='openOtherProfile(" +
+                index +
+                ")'>" +
+
+                "<strong>" +
+                friend.name +
+                "</strong>" +
+
+                "<small>@" +
+                friend.username +
+                "</small>" +
+
+                "</div>" +
+
+                button;
+
+            list.appendChild(item);
+
+        }
+    );
+
+    if (!found) {
+
+        list.innerHTML =
+            "<div class='empty'>No people found 💗</div>";
+
+    }
+
+}
+
+function displayFriendRequests() {
+
+    const container =
+        document.getElementById("friendRequests");
+
+    container.innerHTML = "";
+
+    const incoming =
+        getIncomingRequests();
+
+    const pending =
+        getPendingRequests();
+
+    if (incoming.length) {
+
+        container.innerHTML +=
+            "<h2>📩 Friend Requests</h2>";
+
+        incoming.forEach(
+            function(request) {
+
+                const friend =
+                    friendsData[request.index];
+
+                if (!friend) return;
+
+                container.innerHTML +=
+
+                    "<div class='request-box'>" +
+
+                    "<strong>" +
+                    friend.avatar +
+                    " " +
+                    friend.name +
+                    "</strong>" +
+
+                    "<p>" +
+                    friend.name +
+                    " wants to be your friend 💗" +
+                    "</p>" +
+
+                    "<button class='green-button' onclick='acceptFriendRequest(" +
+                    request.index +
+                    ")'>✅ Accept</button>" +
+
+                    "<button class='red-button' onclick='declineFriendRequest(" +
+                    request.index +
+                    ")'>❌ Decline</button>" +
+
+                    "</div>";
+
+            }
+        );
+
+    }
+
+    if (pending.length) {
+
+        container.innerHTML +=
+            "<h2>⏳ Sent Requests</h2>";
+
+        pending.forEach(
+            function(index) {
+
+                const friend =
+                    friendsData[index];
+
+                if (!friend) return;
+
+                container.innerHTML +=
+
+                    "<div class='request-box'>" +
+
+                    "<strong>" +
+                    friend.avatar +
+                    " " +
+                    friend.name +
+                    "</strong>" +
+
+                    "<p style='color:#999'>Request sent</p>" +
+
+                    "<button class='gray-button' onclick='cancelFriendRequest(" +
+                    index +
+                    ")'>Cancel</button>" +
+
+                    "</div>";
+
+            }
+        );
+
+    }
+
+}
+
+
+/* =========================
+   DISCOVER
+========================= */
+
+function displayDiscover() {
+
+    const container =
+        document.getElementById("discoverUsers");
+
+    const search =
+        document.getElementById("discoverSearch")
+        .value
+        .toLowerCase();
+
+    container.innerHTML = "";
+
+    friendsData.forEach(
+        function(friend,index) {
+
+            if (
+                !friend.name.toLowerCase().includes(search) &&
+                !friend.username.toLowerCase().includes(search)
+            ) {
+                return;
+            }
+
+            const card =
+                document.createElement("div");
+
+            card.className = "user-card";
+
+            const action =
+                isFriend(index)
+                ? "<button class='pink-button' onclick='openPrivateChat(" +
+                  index +
+                  ")'>💬 Message</button>"
+                : isPending(index)
+                ? "<button class='gray-button'>⏳ Sent</button>"
+                : "<button class='pink-button' onclick='sendFriendRequest(" +
+                  index +
+                  ")'>➕ Add Friend</button>";
+
+            card.innerHTML =
+
+                "<div class='avatar'>" +
+                friend.avatar +
+                "</div>" +
+
+                "<h3>" +
+                friend.name +
+                "</h3>" +
+
+                "<small>@" +
+                friend.username +
+                "</small>" +
+
+                "<p>" +
+                friend.bio +
+                "</p>" +
+
+                "<button class='gray-button' onclick='openOtherProfile(" +
+                index +
+                ")'>View Profile</button>" +
+
+                action;
+
+            container.appendChild(card);
+
+        }
+    );
+
+}
+
+
+/* =========================
+   OTHER PROFILE
+========================= */
+
+let currentProfileIndex = null;
+
+function openOtherProfile(index) {
+
+    currentProfileIndex = index;
+
+    const friend =
+        friendsData[index];
+
+    document.getElementById("otherAvatar").textContent =
+        friend.avatar;
+
+    document.getElementById("otherName").textContent =
+        friend.name;
+
+    document.getElementById("otherUsername").textContent =
+        "@" + friend.username;
+
+    document.getElementById("otherBio").textContent =
+        friend.bio;
+
+    document.getElementById("otherFriendsCount").textContent =
+        5 + index * 7;
+
+    document.getElementById("otherMomentsCount").textContent =
+        2 + index * 3;
+
+    updateOtherProfileActions();
+
+    showPage("otherProfile");
+
+}
+
+function updateOtherProfileActions() {
+
+    const container =
+        document.getElementById("otherProfileActions");
+
+    if (isFriend(currentProfileIndex)) {
+
+        container.innerHTML =
+
+            "<button class='pink-button' onclick='openPrivateChat(" +
+            currentProfileIndex +
+            ")'>💬 Message</button>" +
+
+            "<button class='gray-button' onclick='removeFriend(" +
+            currentProfileIndex +
+            ")'>✓ Friends</button>";
+
+    } else if (isPending(currentProfileIndex)) {
+
+        container.innerHTML =
+
+            "<button class='gray-button' onclick='cancelFriendRequest(" +
+            currentProfileIndex +
+            ");updateOtherProfileActions();'>⏳ Request Sent</button>";
+
+    } else {
+
+        container.innerHTML =
+
+            "<button class='pink-button' onclick='sendFriendRequest(" +
+            currentProfileIndex +
+            ");updateOtherProfileActions();'>➕ Add Friend</button>";
+
+    }
+
+}
+
+function removeFriend(index) {
+
+    if (
+        !confirm(
+            "Remove " +
+            friendsData[index].name +
+            " from your friends?"
+        )
+    ) {
+        return;
+    }
+
+    const friends =
+        getAddedFriends().filter(
+            function(item) {
+
+                return item !== index;
+
+            }
+        );
+
+    saveAddedFriends(friends);
+
+    loadProfile();
+    updateOtherProfileActions();
+
+}
+
+
+/* =========================
+   CHAT
+========================= */
+
+let currentChatIndex = null;
+
+function getChatMessages() {
+
+    return JSON.parse(
+        localStorage.getItem("chatMessages") || "{}"
+    );
+
+}
+
+function saveChatMessages(data) {
+
+    localStorage.setItem(
+        "chatMessages",
+        JSON.stringify(data)
+    );
+
+}
+
+function openPrivateChat(index) {
+
+    if (!isFriend(index)) {
+
+        alert(
+            "You need to be friends before messaging 💗"
+        );
+
+        return;
+
+    }
+
+    currentChatIndex = index;
+
+    const friend =
+        friendsData[index];
+
+    document.getElementById("privateChatTitle").textContent =
+        friend.avatar + " " + friend.name;
+
+    document.getElementById("privateChatUsername").textContent =
+        "@" + friend.username +
+        " • online";
+
+    showPage("privateChat");
+
+    displayPrivateMessages();
+
+}
+
+function displayPrivateMessages() {
+
+    const container =
+        document.getElementById("privateChatMessages");
+
+    const messages =
+        getChatMessages();
+
+    const key =
+        String(currentChatIndex);
+
+    if (!messages[key]) {
+
+        messages[key] = [
+
+            {
+                text:
+                    "Hey! Welcome to Talk Your Talk 💗",
+                me:
+                    false,
+                time:
+                    getTime()
+            }
+
+        ];
+
+        saveChatMessages(messages);
+
+    }
+
+    container.innerHTML = "";
+
+    messages[key].forEach(
+        function(message,index) {
+
+            const div =
+                document.createElement("div");
+
+            div.className =
+                "message " +
+                (message.me ? "me" : "them");
+
+            div.innerHTML =
+
+                escapeHTML(message.text) +
+
+                "<div class='message-meta'>" +
+
+                message.time +
+
+                "</div>";
+
+            container.appendChild(div);
+
+        }
+    );
+
+    container.scrollTop =
+        container.scrollHeight;
+
+}
+
+function sendPrivateMessage() {
+
+    const input =
+        document.getElementById("privateChatInput");
+
+    const text =
+        input.value.trim();
+
+    if (!text) return;
+
+    const messages =
+        getChatMessages();
+
+    const key =
+        String(currentChatIndex);
+
+    if (!messages[key]) {
+        messages[key] = [];
+    }
+
+    messages[key].push({
+
+        text:
+            text,
+
+        me:
+            true,
+
+        time:
+            getTime()
+
+    });
+
+    saveChatMessages(messages);
+
+    input.value = "";
+
+    hideTyping();
+
+    displayPrivateMessages();
+
+}
+
+function handleChatKey(event) {
+
+    if (event.key === "Enter") {
+
+        sendPrivateMessage();
+
+    }
+
+}
+
+function showTyping() {
+
+    const indicator =
+        document.getElementById("typingIndicator");
+
+    indicator.style.display =
+        "block";
+
+    clearTimeout(window.typingTimer);
+
+    window.typingTimer =
+        setTimeout(
+            hideTyping,
+            1200
+        );
+
+}
+
+function hideTyping() {
+
+    document.getElementById(
+        "typingIndicator"
+    ).style.display = "none";
+
+}
+
+function displayChatList() {
+
+    const container =
+        document.getElementById("chatList");
+
+    const messages =
+        getChatMessages();
+
+    container.innerHTML = "";
+
+    let found = false;
+
+    friendsData.forEach(
+        function(friend,index) {
+
+            const key =
+                String(index);
+
+            if (
+                !isFriend(index) ||
+                !messages[key] ||
+                messages[key].length === 0
+            ) {
+                return;
+            }
+
+            found = true;
+
+            const latest =
+                messages[key][
+                    messages[key].length - 1
+                ];
+
+            const item =
+                document.createElement("div");
+
+            item.className =
+                "friend-item chat-list-item";
+
+            item.onclick =
+                function() {
+
+                    openPrivateChat(index);
+
+                };
+
+            item.innerHTML =
+
+                "<div class='friend-avatar'>" +
+                friend.avatar +
+                "</div>" +
+
+                "<div class='friend-info'>" +
+
+                "<strong>" +
+                friend.name +
+                "<span class='online-dot'></span>" +
+                "</strong>" +
+
+                "<small>" +
+                escapeHTML(latest.text) +
+                "</small>" +
+
+                "</div>";
+
+            container.appendChild(item);
+
+        }
+    );
+
+    if (!found) {
+
+        container.innerHTML =
+
+            "<div class='empty'>" +
+
+            "No conversations yet 💗<br><br>" +
+
+            "Add a friend and start talking." +
+
+            "</div>";
+
+    }
+
+}
+
+
+/* =========================
+   POSTS
+========================= */
+
+function getPosts() {
+
+    let posts =
+        JSON.parse(
+            localStorage.getItem("posts") || "null"
+        );
+
+    if (posts === null) {
+
+        posts = [
+
+            {
+                id: 1,
+                name: "Alex",
+                username: "alex",
+                avatar: "👨🏻",
+                text:
+                    "Anyone else awake way too late? 😂",
+                image: "",
+                likes: 4,
+                liked: false,
+                comments: [],
+                mine: false
+            },
+
+            {
+                id: 2,
+                name: "Maya",
+                username: "maya",
+                avatar: "👩🏻",
+                text:
+                    "Music makes everything better 🎧💗",
+                image: "",
+                likes: 7,
+                liked: false,
+                comments: [],
+                mine: false
+            }
+
+        ];
+
+        savePosts(posts);
+
+    }
+
+    return posts;
+
+}
+
+function savePosts(posts) {
+
+    localStorage.setItem(
+        "posts",
+        JSON.stringify(posts)
+    );
+
+}
+
+function previewPostImage(event) {
+
+    const file =
+        event.target.files[0];
+
+    if (!file) return;
+
+    const reader =
+        new FileReader();
+
+    reader.onload =
+        function(e) {
+
+            const preview =
+                document.getElementById(
+                    "postImagePreview"
+                );
+
+            preview.src =
+                e.target.result;
+
+            preview.style.display =
+                "block";
+
+        };
+
+    reader.readAsDataURL(file);
+
+}
+
+function createPost() {
+
+    const text =
+        document.getElementById("postText")
+        .value
+        .trim();
+
+    const image =
+        document.getElementById("postImagePreview")
+        .src || "";
+
+    if (!text && !image) {
+
+        alert(
+            "Write something or add a photo first 💗"
+        );
+
+        return;
+
+    }
+
+    const posts =
+        getPosts();
+
+    posts.unshift({
+
+        id:
+            Date.now(),
+
+        name:
+            localStorage.getItem("profileName") ||
+            "Naina",
+
+        username:
+            localStorage.getItem("profileUsername") ||
+            "naina",
+
+        avatar:
+            "💗",
+
+        text:
+            text,
+
+        image:
+            image,
+
+        likes:
+            0,
+
+        liked:
+            false,
+
+        comments:
+            [],
+
+        mine:
+            true
+
+    });
+
+    savePosts(posts);
+
+    document.getElementById("postText").value =
+        "";
+
+    document.getElementById("postImagePreview").style.display =
+        "none";
+
+    document.getElementById("postImagePreview").src =
+        "";
+
+    document.getElementById("postImageInput").value =
+        "";
+
+    addNotification(
+        "Your post was published ✨"
+    );
+
+    showPage("home");
+
+}
+
+function toggleLike(postId) {
+
+    const posts =
+        getPosts();
+
+    const post =
+        posts.find(
+            function(item) {
+
+                return item.id === postId;
+
+            }
+        );
+
+    if (!post) return;
+
+    if (post.liked) {
+
+        post.likes--;
+        post.liked = false;
+
+    } else {
+
+        post.likes++;
+        post.liked = true;
+
+    }
+
+    savePosts(posts);
+
+    displayFeed();
+
+}
+
+function addPostComment(postId) {
+
+    const input =
+        document.getElementById(
+            "commentInput" + postId
+        );
+
+    const text =
+        input.value.trim();
+
+    if (!text) return;
+
+    const posts =
+        getPosts();
+
+    const post =
+        posts.find(
+            function(item) {
+
+                return item.id === postId;
+
+            }
+        );
+
+    if (!post) return;
+
+    post.comments.push({
+
+        name:
+            localStorage.getItem("profileName") ||
+            "Naina",
+
+        text:
+            text
+
+    });
+
+    savePosts(posts);
+
+    displayFeed();
+
+}
+
+function deletePost(postId) {
+
+    if (
+        !confirm("Delete this post?")
+    ) {
+        return;
+    }
+
+    const posts =
+        getPosts().filter(
+            function(post) {
+
+                return post.id !== postId;
+
+            }
+        );
+
+    savePosts(posts);
+
+    displayFeed();
+    loadProfile();
+
+}
+
+function displayFeed() {
+
+    const feed =
+        document.getElementById("feed");
+
+    if (!feed) return;
+
+    const posts =
+        getPosts();
+
+    feed.innerHTML = "";
+
+    posts.forEach(
+        function(post) {
+
+            const article =
+                document.createElement("div");
+
+            article.className =
+                "post";
+
+            let commentsHTML = "";
+
+            post.comments.forEach(
+                function(comment) {
+
+                    commentsHTML +=
+
+                        "<div class='comment'>" +
+
+                        "<strong>" +
+                        escapeHTML(comment.name) +
+                        "</strong> " +
+
+                        escapeHTML(comment.text) +
+
+                        "</div>";
+
+                }
+            );
+
+            const imageHTML =
+                post.image
+                ? "<img class='post-image' src='" +
+                  post.image +
+                  "'>"
+                : "";
+
+            const deleteButton =
+                post.mine
+                ? "<button onclick='deletePost(" +
+                  post.id +
+                  ")'>🗑️ Delete</button>"
+                : "";
+
+            article.innerHTML =
+
+                "<div class='post-header'>" +
+
+                "<div class='post-avatar'>" +
+                post.avatar +
+                "</div>" +
+
+                "<div>" +
+
+                "<strong>" +
+                escapeHTML(post.name) +
+                "</strong>" +
+
+                "<small>@" +
+                escapeHTML(post.username) +
+                "</small>" +
+
+                "</div>" +
+
+                "</div>" +
+
+                "<div class='post-text'>" +
+                escapeHTML(post.text) +
+                "</div>" +
+
+                imageHTML +
+
+                "<div class='post-actions'>" +
+
+                "<button onclick='toggleLike(" +
+                post.id +
+                ")'>" +
+
+                (post.liked
+                    ? "❤️"
+                    : "🤍") +
+
+                " " +
+                post.likes +
+
+                "</button>" +
+
+                "<button>" +
+                "💬 " +
+                post.comments.length +
+                "</button>" +
+
+                deleteButton +
+
+                "</div>" +
+
+                "<div class='comments'>" +
+
+                commentsHTML +
+
+                "<div class='comment-row'>" +
+
+                "<input id='commentInput" +
+                post.id +
+                "' placeholder='Write a comment...'>" +
+
+                "<button class='pink-button' onclick='addPostComment(" +
+                post.id +
+                ")'>Send</button>" +
+
+                "</div>" +
+
+                "</div>";
+
+            feed.appendChild(article);
+
+        }
+    );
+
+}
+
+
+/* =========================
+   NOTIFICATIONS
+========================= */
+
+function getNotifications() {
+
+    return JSON.parse(
+        localStorage.getItem("notifications") || "[]"
+    );
+
+}
+
+function saveNotifications(data) {
+
+    localStorage.setItem(
+        "notifications",
+        JSON.stringify(data)
+    );
+
+}
+
+function addNotification(text) {
+
+    const notifications =
+        getNotifications();
+
+    notifications.unshift({
+
+        id:
+            Date.now(),
+
+        text:
+            text,
+
+        unread:
+            true,
+
+        time:
+            getTime()
+
+    });
+
+    saveNotifications(notifications);
+
+}
+
+function displayNotifications() {
+
+    const container =
+        document.getElementById(
+            "notificationList"
+        );
+
+    const notifications =
+        getNotifications();
+
+    container.innerHTML = "";
+
+    if (!notifications.length) {
+
+        container.innerHTML =
+            "<div class='empty'>No notifications yet 💗</div>";
+
+        return;
+
+    }
+
+    notifications.forEach(
+        function(notification) {
+
+            const div =
+                document.createElement("div");
+
+            div.className =
+                "notification " +
+                (
+                    notification.unread
+                    ? "unread"
+                    : ""
+                );
+
+            div.innerHTML =
+
+                "<div>" +
+                escapeHTML(notification.text) +
+                "</div>" +
+
+                "<span class='notification-time'>" +
+                notification.time +
+                "</span>";
+
+            div.onclick =
+                function() {
+
+                    notification.unread =
+                        false;
+
+                    saveNotifications(
+                        notifications
+                    );
+
+                    displayNotifications();
+
+                };
+
+            container.appendChild(div);
+
+        }
+    );
+
+}
+
+function markAllRead() {
+
+    const notifications =
+        getNotifications();
+
+    notifications.forEach(
+        function(notification) {
+
+            notification.unread =
+                false;
+
+        }
+    );
+
+    saveNotifications(
+        notifications
+    );
+
+    displayNotifications();
+
+}
+
+
+/* ==================================================
+   🎙️ LIVE ROOM SYSTEM
+================================================== */
+
+let selectedRoomVisibility = "public";
+
+let currentRoomId = null;
+
+
+/* =========================
+   ROOM STORAGE
+========================= */
+
+function getRooms() {
+
+    let rooms =
+        JSON.parse(
+            localStorage.getItem("liveRooms") || "null"
+        );
+
+    if (rooms === null) {
+
+        rooms = [
+
+            {
+                id: "demo1",
+                name: "Just Chatting",
+                description:
+                    "Come hang out and talk about anything.",
+                topic:
+                    "Just Chatting",
+                visibility:
+                    "public",
+                host:
+                    "Alex",
+                hostUsername:
+                    "alex",
+                icon:
+                    "🌍",
+                participants:
+                    [
+                        {
+                            name: "Alex",
+                            avatar: "👨🏻",
+                            host: true
+                        },
+                        {
+                            name: "Maya",
+                            avatar: "👩🏻",
+                            host: false
+                        },
+                        {
+                            name: "Chris",
+                            avatar: "👨🏽",
+                            host: false
+                        }
+                    ]
+            },
+
+            {
+                id: "demo2",
+                name: "Music & Chill",
+                description:
+                    "Talk music, artists and everything in between.",
+                topic:
+                    "Music",
+                visibility:
+                    "public",
+                host:
+                    "Maya",
+                hostUsername:
+                    "maya",
+                icon:
+                    "🎵",
+                participants:
+                    [
+                        {
+                            name: "Maya",
+                            avatar: "👩🏻",
+                            host: true
+                        },
+                        {
+                            name: "Sophia",
+                            avatar: "👩🏼",
+                            host: false
+                        }
+                    ]
+            },
+
+            {
+                id: "demo3",
+                name: "Late Night Talks",
+                description:
+                    "Deep conversations and random thoughts.",
+                topic:
+                    "Random",
+                visibility:
+                    "public",
+                host:
+                    "Chris",
+                hostUsername:
+                    "chris",
+                icon:
+                    "🌙",
+                participants:
+                    [
+                        {
+                            name: "Chris",
+                            avatar: "👨🏽",
+                            host: true
+                        }
+                    ]
+            }
+
+        ];
+
+        saveRooms(rooms);
+
+    }
+
+    return rooms;
+
+}
+
+function saveRooms(rooms) {
+
+    localStorage.setItem(
+        "liveRooms",
+        JSON.stringify(rooms)
+    );
+
+}
+
+
+/* =========================
+   CREATE ROOM
+========================= */
+
+function selectRoomVisibility(type) {
+
+    selectedRoomVisibility =
+        type;
+
+    document
+        .getElementById("publicOption")
+        .classList.remove("selected");
+
+    document
+        .getElementById("privateOption")
+        .classList.remove("selected");
+
+    if (type === "public") {
+
+        document
+            .getElementById("publicOption")
+            .classList.add("selected");
+
+    } else {
+
+        document
+            .getElementById("privateOption")
+            .classList.add("selected");
+
+    }
+
+}
+
+function createRoom() {
+
+    const name =
+        document.getElementById(
+            "roomNameInput"
+        ).value.trim();
+
+    const description =
+        document.getElementById(
+            "roomDescriptionInput"
+        ).value.trim();
+
+    const topic =
+        document.getElementById(
+            "roomTopicInput"
+        ).value;
+
+    const username =
+        localStorage.getItem(
+            "profileUsername"
+        ) || "naina";
+
+    const hostName =
+        localStorage.getItem(
+            "profileName"
+        ) || "Naina";
+
+    if (!name) {
+
+        alert(
+            "Give your room a name first 💗"
+        );
+
+        return;
+
+    }
+
+    if (!description) {
+
+        alert(
+            "Add a short description so people know what the room is about."
+        );
+
+        return;
+
+    }
+
+
+    const rooms =
+        getRooms();
+
+
+    const room = {
+
+        id:
+            "room_" +
+            Date.now(),
+
+        name:
+            name,
+
+        description:
+            description,
+
+        topic:
+            topic,
+
+        visibility:
+            selectedRoomVisibility,
+
+        host:
+            hostName,
+
+        hostUsername:
+            username,
+
+        icon:
+            getRoomIcon(topic),
+
+        participants:
+            [
+
+                {
+                    name:
+                        hostName,
+
+                    avatar:
+                        "💗",
+
+                    host:
+                        true
+
+                }
+
+            ]
+
+    };
+
+
+    rooms.unshift(room);
+
+    saveRooms(rooms);
+
+
+    document.getElementById(
+        "roomNameInput"
+    ).value = "";
+
+    document.getElementById(
+        "roomDescriptionInput"
+    ).value = "";
+
+    document.getElementById(
+        "roomTopicInput"
+    ).value = "Just Chatting";
+
+
+    selectedRoomVisibility =
+        "public";
+
+    selectRoomVisibility("public");
+
+
+    addNotification(
+        "Your room '" +
+        name +
+        "' is now live 🎙️"
+    );
+
+
+    currentRoomId =
+        room.id;
+
+
+    showPage("room");
+
+    loadCurrentRoom();
+
+}
+
+function getRoomIcon(topic) {
+
+    const icons = {
+
+        "Just Chatting":
+            "💬",
+
+        "Music":
+            "🎵",
+
+        "Gaming":
+            "🎮",
+
+        "Advice":
+            "💗",
+
+        "Relationships":
+            "💕",
+
+        "Movies & TV":
+            "🎬",
+
+        "Random":
+            "💭"
+
+    };
+
+    return icons[topic] || "🎙️";
+
+}
+
+
+/* =========================
+   DISPLAY ROOMS
+========================= */
+
+function displayRooms() {
+
+    const container =
+        document.getElementById("roomList");
+
+    if (!container) return;
+
+    const rooms =
+        getRooms();
+
+    container.innerHTML = "";
+
+    if (!rooms.length) {
+
+        container.innerHTML =
+            "<div class='empty'>" +
+            "No live rooms right now 💗" +
+            "</div>";
+
+        return;
+
+    }
+
+
+    rooms.forEach(
+        function(room) {
+
+            const card =
+                document.createElement("div");
+
+            card.className =
+                "room-card";
+
+
+            const participantCount =
+                room.participants.length;
+
+
+            const privacy =
+                room.visibility === "private"
+                ? "🔒 Private"
+                : "🌍 Public";
+
+
+            card.innerHTML =
+
+                "<div class='room-card-header'>" +
+
+                "<div class='room-icon'>" +
+                room.icon +
+                "</div>" +
+
+                "<div class='room-info'>" +
+
+                "<h3>" +
+                escapeHTML(room.name) +
+                "</h3>" +
+
+                "<p>" +
+                escapeHTML(room.description) +
+                "</p>" +
+
+                "</div>" +
+
+                "</div>" +
+
+
+                "<div class='room-meta'>" +
+
+                "<span class='room-host'>" +
+                "👑 " +
+                escapeHTML(room.host) +
+                "</span>" +
+
+                " &nbsp; " +
+
+                privacy +
+
+                " &nbsp; • &nbsp; " +
+
+                "👥 " +
+                participantCount +
+
+                "</div>" +
+
+
+                "<div style='margin-top:12px;'>" +
+
+                "<button class='pink-button' onclick='joinRoom(\"" +
+                room.id +
+                "\")'>" +
+
+                "🎙️ Join Room" +
+
+                "</button>" +
+
+                "</div>";
+
+
+            container.appendChild(card);
+
+        }
+    );
+
+}
+
+
+/* =========================
+   JOIN ROOM
+========================= */
+
+function joinRoom(roomId) {
+
+    const rooms =
+        getRooms();
+
+    const room =
+        rooms.find(
+            function(item) {
+
+                return item.id === roomId;
+
+            }
+        );
+
+    if (!room) {
+
+        alert(
+            "This room no longer exists."
+        );
+
+        displayRooms();
+
+        return;
+
+    }
+
+
+    const myName =
+        localStorage.getItem(
+            "profileName"
+        ) || "Naina";
+
+
+    const alreadyInside =
+        room.participants.some(
+            function(person) {
+
+                return person.name === myName;
+
+            }
+        );
+
+
+    if (!alreadyInside) {
+
+        room.participants.push({
+
+            name:
+                myName,
+
+            avatar:
+                "💗",
+
+            host:
+                false
+
+        });
+
+    }
+
+
+    saveRooms(rooms);
+
+
+    currentRoomId =
+        roomId;
+
+
+    showPage("room");
+
+    loadCurrentRoom();
+
+}
+
+
+/* =========================
+   LOAD CURRENT ROOM
+========================= */
+
+function loadCurrentRoom() {
+
+    const rooms =
+        getRooms();
+
+    const room =
+        rooms.find(
+            function(item) {
+
+                return item.id === currentRoomId;
+
+            }
+        );
+
+
+    if (!room) {
+
+        showPage("rooms");
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "roomTitle"
+    ).textContent =
+        room.name;
+
+
+    document.getElementById(
+        "activeRoomIcon"
+    ).textContent =
+        room.icon;
+
+
+    document.getElementById(
+        "activeRoomTopic"
+    ).textContent =
+        room.topic;
+
+
+    document.getElementById(
+        "activeRoomDescription"
+    ).textContent =
+        room.description;
+
+
+    document.getElementById(
+        "activeRoomHost"
+    ).textContent =
+        "👑 Hosted by " +
+        room.host;
+
+
+    const myUsername =
+        localStorage.getItem(
+            "profileUsername"
+        ) || "naina";
+
+
+    const isHost =
+        room.hostUsername === myUsername;
+
+
+    document.getElementById(
+        "hostControls"
+    ).style.display =
+        isHost
+        ? "block"
+        : "none";
+
+
+    displayRoomPeople(room);
+
+}
+
+
+/* =========================
+   ROOM PEOPLE
+========================= */
+
+function displayRoomPeople(room) {
+
+    const container =
+        document.getElementById(
+            "roomPeople"
+        );
+
+    container.innerHTML = "";
+
+
+    room.participants.forEach(
+        function(person) {
+
+            const card =
+                document.createElement("div");
+
+            card.className =
+                "person-card";
+
+
+            card.innerHTML =
+
+                "<div style='font-size:40px'>" +
+                person.avatar +
+                "</div>" +
+
+                "<strong>" +
+                escapeHTML(person.name) +
+                "</strong>" +
+
+                "<br>" +
+
+                (
+                    person.host
+                    ? "👑 Host"
+                    : "🎧 Listening"
+                );
+
+
+            container.appendChild(card);
+
+        }
+    );
+
+}
+
+
+/* =========================
+   LEAVE ROOM
+========================= */
+
+function leaveCurrentRoom() {
+
+    const rooms =
+        getRooms();
+
+    const room =
+        rooms.find(
+            function(item) {
+
+                return item.id === currentRoomId;
+
+            }
+        );
+
+
+    if (room) {
+
+        const myUsername =
+            localStorage.getItem(
+                "profileUsername"
+            ) || "naina";
+
+
+        if (
+            room.hostUsername !== myUsername
+        ) {
+
+            const myName =
+                localStorage.getItem(
+                    "profileName"
+                ) || "Naina";
+
+
+            room.participants =
+                room.participants.filter(
+                    function(person) {
+
+                        return person.name !== myName;
+
+                    }
+                );
+
+            saveRooms(rooms);
+
+        }
+
+    }
+
+
+    currentRoomId =
+        null;
+
+
+    showPage("rooms");
+
+}
+
+
+/* =========================
+   END ROOM
+========================= */
+
+function endCurrentRoom() {
+
+    const rooms =
+        getRooms();
+
+    const room =
+        rooms.find(
+            function(item) {
+
+                return item.id === currentRoomId;
+
+            }
+        );
+
+
+    if (!room) return;
+
+
+    const myUsername =
+        localStorage.getItem(
+            "profileUsername"
+        ) || "naina";
+
+
+    if (
+        room.hostUsername !== myUsername
+    ) {
+
+        alert(
+            "Only the host can end this room."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        !confirm(
+            "End this live room?"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    const remaining =
+        rooms.filter(
+            function(item) {
+
+                return item.id !== currentRoomId;
+
+            }
+        );
+
+
+    saveRooms(remaining);
+
+
+    addNotification(
+        "Your live room has ended."
+    );
+
+
+    currentRoomId =
+        null;
+
+
+    showPage("rooms");
+
+    displayRooms();
+
+}
+
+
+/* =========================
+   ROOM CONTROLS
+========================= */
+
+function toggleMic() {
+
+    const button =
+        document.getElementById(
+            "micButton"
+        );
+
+    if (
+        button.textContent.includes("On")
+    ) {
+
+        button.textContent =
+            "🔇 Mic Off";
+
+    } else {
+
+        button.textContent =
+            "🎤 Mic On";
+
+    }
+
+}
+
+function raiseHand() {
+
+    const button =
+        document.getElementById(
+            "handButton"
+        );
+
+    if (
+        button.classList.contains("hand-up")
+    ) {
+
+        button.classList.remove(
+            "hand-up"
+        );
+
+        button.textContent =
+            "✋ Raise Hand";
+
+    } else {
+
+        button.classList.add(
+            "hand-up"
+        );
+
+        button.textContent =
+            "✋ Hand Raised";
+
+    }
+
+}
+
+
+/* =========================
+   SETTINGS
+========================= */
+
+function toggleSetting(name) {
+
+    const map = {
+
+        requests:
+            "toggleRequests",
+
+        messages:
+            "toggleMessages",
+
+        friendRequests:
+            "toggleFriendRequests",
+
+        privateMessages:
+            "togglePrivateMessages"
+
+    };
+
+    const element =
+        document.getElementById(
+            map[name]
+        );
+
+    element.classList.toggle("on");
+
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+function globalSearch(event) {
+
+    if (event.key !== "Enter") return;
+
+    const value =
+        event.target.value.trim();
+
+    if (!value) return;
+
+    document.getElementById(
+        "discoverSearch"
+    ).value =
+        value;
+
+    showPage("discover");
+
+    displayDiscover();
+
+}
+
+
+/* =========================
+   HELPERS
+========================= */
+
+function getTime() {
+
+    return new Date().toLocaleTimeString(
+        [],
+        {
+            hour: "2-digit",
+            minute: "2-digit"
+        }
+    );
+
+}
+
+function escapeHTML(text) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent =
+        text;
+
+    return div.innerHTML;
+
+}
+
+
+/* =========================
+   STARTUP
+========================= */
+
+window.onload =
+    function() {
+
+        const loggedIn =
+            localStorage.getItem(
+                "isLoggedIn"
+            );
+
+        if (
+            loggedIn === "true"
+        ) {
+
+            document.getElementById(
+                "loginScreen"
+            ).style.display =
+                "none";
+
+            document.getElementById(
+                "signupScreen"
+            ).style.display =
+                "none";
+
+            document.getElementById(
+                "app"
+            ).style.display =
+                "block";
+
+            loadProfile();
+            displayFeed();
+            displayDiscover();
+            displayRooms();
+            updateNavigation("home");
+
+        } else {
+
+            document.getElementById(
+                "loginScreen"
+            ).style.display =
+                "flex";
+
+            document.getElementById(
+                "signupScreen"
+            ).style.display =
+                "none";
+
+            document.getElementById(
+                "app"
+            ).style.display =
+                "none";
+
+        }
+
+    };
+
+</script>
+
+</body>
+
+</html>
